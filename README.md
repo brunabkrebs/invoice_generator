@@ -7,5 +7,4 @@ Example:
 " The event was located at {{location}} "
 
 For external use:
-Substitute the "context" fields for desired fields
-Substitute file paths
+Substitute the "context" fields for desired fields, and substitute file paths

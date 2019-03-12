@@ -10,6 +10,7 @@ import os
 from tkinter import messagebox
 import datetime
 from datetime import date
+import win32com.client as win32
 
 # Set up GUI
 gui = tkinter.Tk()
@@ -91,11 +92,23 @@ def generatebuttonclicked():
 
     # Remove the original .docx file
     os.remove(in_file)
+    
+    # Open generated PDF
+    os.startfile(out_file)    
+    
+    # Write email with PDF invoice attached
+    outlook = win32.Dispatch('outlook.application')
+    mail = outlook.CreateItem(0)
+    mail.To = input("Recipients: ")
+    mail.Subject = "Beer Pong Invoice"
+    mail.Body = input("Email body: ")
+    mail.Attachments.Add(out_file)
+    mail.Display(True)
+    
+    #To send the email without reviewing:
+    #mail.Send()
 
-    # Create a message box confirming the program ran successfully
-    messagebox.showinfo('', 'The invoice has been successfully generated!')
-
-finalbutton = tkinter.Button(gui, text = 'Generate Invoice', width=22, font="Arial 16", command=generatebuttonclicked).grid(row=8, column=3)
+finalbutton = tkinter.Button(gui, text = 'Generate Email', width=22, font="Arial 16", command=generatebuttonclicked).grid(row=8, column=3)
 
 gui.mainloop()
 
